@@ -1,4 +1,3 @@
-const { StatusCodes } = require("http-status-codes");
 const CustomError = require("../errors/index");
 
 const checkPermission = (user, resourceId) => {
