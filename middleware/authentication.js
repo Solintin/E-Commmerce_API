@@ -7,9 +7,8 @@ const authenticateUser = async (req, res, next) => {
     throw new CustomError.UnauthenticatedError("Authentication invalid");
   } else {
     try {
-      const payload = isTokenValid({ token });
-      console.log(payload);
-      req.user = payload;
+      const { name, userId, role } = isTokenValid({ token });
+      req.user = { name, userId, role };
 
       next();
     } catch (error) {
@@ -17,5 +16,14 @@ const authenticateUser = async (req, res, next) => {
     }
   }
 };
+const authorizePermissions = (...roles) => {
+  return (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      throw new CustomError.UnauthorizedError("Access Forbidden");
+    } else {
+      next();
+    }
+  };
+};
 
-module.exports = { authenticateUser };
+module.exports = { authenticateUser, authorizePermissions };
