@@ -1,12 +1,11 @@
 const mongoose = require("mongoose");
 
-const productSchema =
-  ({
+const productSchema = mongoose.Schema(
+  {
     name: {
       type: String,
       trim: true,
       required: [true, "Please provide name"],
-      maxlenght: [true, "Name cannot be more than 100 characters"],
     },
     price: {
       type: Number,
@@ -21,7 +20,7 @@ const productSchema =
     },
     category: {
       type: String,
-      required: [true, "Please provide cat name"],
+      required: [true, "Please provide category"],
       enum: ["office", "kitchen", "bedroom"],
     },
     company: {
@@ -31,7 +30,8 @@ const productSchema =
     },
     colors: {
       type: [String],
-      required: [true, "Please provide color name"],
+      required: [true, "Please provide color"],
+      default: ["#222"],
     },
     featured: {
       type: String,
@@ -50,12 +50,21 @@ const productSchema =
       type: Number,
       default: 0,
     },
+    numOfReviews: {
+      type: Number,
+      default: 0,
+    },
     user: {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: [true],
+      required: true,
     },
   },
-  { timestamps: true });
+  { timestamps: true }
+);
+productSchema.pre("remove", async function (next) {
+  await this.model("Review").deleteMany({ product: this._id });
+});
 
-module.exports = mongoose.model("Product", productSchema);
+module.exports =
+  mongoose.models.Product || mongoose.model("Product", productSchema);
