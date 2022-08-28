@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(cors());
 app.use(
   rateLimiter({
-    windowsMs: 15 * 60 * 60,
+    windowMs: 15 * 60 * 60,
     max:60
   })
 );
