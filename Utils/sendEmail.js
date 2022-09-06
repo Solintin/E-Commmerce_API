@@ -1,7 +1,6 @@
 const nodemailer = require("nodemailer");
 const config = require("./nodeMailer.Config");
 const sendEmail = async ({ to, subject, html }) => {
-  //   let testAccount = await nodemailer.createTestAccount();
 
   const transporter = nodemailer.createTransport(config);
 

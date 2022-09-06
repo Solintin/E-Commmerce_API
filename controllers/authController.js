@@ -119,7 +119,7 @@ const verifyEmail = async (req, res) => {
 
   res
     .status(200)
-    .json({ message: "Email verified successfully", verificationToken, email });
+    .json({ message: "Email verified successfully" });
 };
 
 //Login User

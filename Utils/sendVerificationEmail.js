@@ -5,7 +5,7 @@ const sendVerificationEmail = (email, name, verificationToken) => {
 
   return sendEmail({
     to: email,
-    subject: "Email confirmation",
+    subject: "Email verification",
     html: `<h3>Hello, ${name}</h4> ${message}`,
   });
 };
